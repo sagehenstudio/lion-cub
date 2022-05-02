@@ -26,11 +26,11 @@ Upload the make_license file to the server where your Easy Digital Download plug
 
 ### Testing the Lion Cub API
 
-Lion Cub uses Wordpress REST API which can be tested at the URL:
+Lion Cub uses a custom Wordpress REST API endpoint which can be tested at the URL:
 
-https://**www.your-website.com**/wp-json/lion-cub/make-license/?api_key=**yourAPIkey**
+https://__www.your-website.com__/wp-json/lion-cub/make-license/?api_key=__YourAlphanumer1cAPI-Key__
 
-Make sure your API key is correct, and keep it secret. If need be the API can be changed any time on the Lion Cub settings page. The make_license file location must also be corect. The GET request uses some dummy data. You can adjust the data used by Lion Cub using the 'lioncub_filter_api_data' filter hook.
+Make sure your API key is correct, unique, and keep it secret. If need be the API can be changed any time on the Lion Cub settings page. The make_license file location must also be corect. The GET request uses some dummy data. You can adjust the data used by Lion Cub using the 'lioncub_filter_api_data' filter hook.
 
 ### Debugging
 
