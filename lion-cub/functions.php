@@ -18,36 +18,6 @@
 
 	}
 
-/*
-
-	function io_mswIP() {
- 	 	$ips = array();
-  		$types = array(
-    			'HTTP_CLIENT_IP',
-    			'HTTP_X_FORWARDED_FOR',
-    			'HTTP_X_FORWARDED',
-    			'HTTP_X_CLUSTER_CLIENT_IP',
-    			'HTTP_FORWARDED_FOR',
-   			'HTTP_FORWARDED',
-    			'REMOTE_ADDR'
-  		);
-  		foreach ( $types AS $key ) {
-    			if ( array_key_exists( $key, $_SERVER ) === true ) {
-      			foreach ( array_map( 'trim', explode( ',', $_SERVER[$key] ) ) AS $ipA ) {
-        				if ( ! in_array( $ipA, $ips ) && filter_var( $ipA, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false ) {
-          				$ips[] = $ipA;
-        				} else {
-          				// Double check for localhost..
-          				if ( ! in_array( $ipA, $ips ) && in_array( $ipA, array( '::1','127.0.0.1' ) ) ) {
-           		 			$ips[] = $ipA;
-          				}
-        				}
-      			}
-    			}
-  		}
-  		return ( ! empty( $ips ) ? implode( ',', $ips ) : '' );
-	}
-*/
 
 	function lioncub_special_chars( $data ) {
 
