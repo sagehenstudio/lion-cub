@@ -7,11 +7,24 @@
  * Author: Sagehen Studio
  * Text Domain: lioncub-license-generator
  * 
- * IonTube License Generator
+ * Lion Cub License Generator
  * Copyright: (c) 2022 Sagehen Studio
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * Lion Cub is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License, or
+ * any later version.
+ 
+ * Lion Cub is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ 
+ * You should have received a copy of the GNU General Public License
+ * along with Lion Cub. If not, see http://www.gnu.org/licenses/gpl-3.0.html.
  *
  * Adapted for Wordpress and EDD from MaianCube by Maian Media
  * https://www.maiancube.com
