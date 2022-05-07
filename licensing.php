@@ -5,7 +5,6 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 	class ionCubeLicense {
 
 		/**
-		 *
 		 * Constructor
 		 *
 		 * @param array $license
@@ -13,40 +12,38 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 		 */
 		public function __construct( $license = array() ) {
 
-    			$this->name         	= $license['name'];
-    			$this->res_string 	= $license['res_string'];
-   	 		$this->passphrase   	= $license['passphrase'];
-    			$this->expiration   	= $license['expiration'];
-   	 		$this->server       	= $license['server'];
-    			$this->headers      	= $license['headers'];
-    			$this->properties   	= $license['properties'];
-			$this->account		= $license['account'];
-    			$this->save         	= $license['save'];
-    			$this->settings     	= $license['settings'];
+			$this->name         = $license['name'];
+			$this->res_string   = $license['res_string'];
+			$this->passphrase   = $license['passphrase'];
+			$this->expiration   = $license['expiration'];
+			$this->server       = $license['server'];
+			$this->headers      = $license['headers'];
+			$this->properties   = $license['properties'];
+			$this->account      = $license['account'];
+			$this->save         = $license['save'];
+			$this->settings     = $license['settings'];
 
 		}
 
 		/**
-		 *
 		 * Escape single quotes
 		 *
 		 * @param string data
 		 * @return string
 		 */
-  		public function esc( $data ) {
+		public function esc( $data ) {
 
-    			return "'" . str_replace( "'", "\'", $data ) . "'";
+				return "'" . str_replace( "'", "\'", $data ) . "'";
 
-  		}
+		}
 
 		/**
-		 *
 		 * License creation using make_license
 		 *
 		 * @return string
 		 */	
 		public function create() {
-	
+
 			$path = LIONCUB_TMP_DIR . 'lic/';
 
 			$string = $this->lock();
@@ -95,10 +92,8 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 			}
 
 		}
-	
 
 		/**
-		 *
 		 * License passphrase and restrictions
 		 *
 		 * @return string
@@ -133,9 +128,7 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 
 		}
 
-
 		/**
-		 *
 		 * License headers
 		 *
 		 * @return string
@@ -144,10 +137,10 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 
 			$head = array();
 			$tags = array( // Tags are like shortcodes which can be used in headers for dynamic content
-				'{NAME}' 	=> $this->account['name'],
-				'{EMAIL}' 	=> $this->account['email'],
-				'{DATE}' 	=> get_the_date(),
-				'{TIME}' 	=> get_the_time(),
+				'{NAME}'    => $this->account['name'],
+				'{EMAIL}'   => $this->account['email'],
+				'{DATE}'    => get_the_date(),
+				'{TIME}'    => get_the_time(),
 			);
 			if ( ! empty( $this->headers ) ) {
 				foreach ( $this->headers as $header ) {
@@ -162,7 +155,6 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 		}
 
 		/**
-		 *
 		 * License expiration
 		 *
 		 * @return string
@@ -186,7 +178,6 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 
 
 		/**
-		 *
 		 * License properties
 		 *
 		 * @return string
@@ -198,10 +189,10 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 			$enforce = array();
 			$atk = array(); // @todo set this up
 			$tags = array( // tags are like shortcodes which can be used in headers for dynamic content
-				'{NAME}' 	=> $this->account['name'],
-				'{EMAIL}' 	=> $this->account['email'],
-				'{DATE}' 	=> date_i18n( get_option( 'date_format' ) ),
-				'{TIME}' 	=> date_i18n( get_option( 'time_format' ) ),
+				'{NAME}'    => $this->account['name'],
+				'{EMAIL}'   => $this->account['email'],
+				'{DATE}'    => date_i18n( get_option( 'date_format' ) ),
+				'{TIME}'    => date_i18n( get_option( 'time_format' ) ),
 			);
 
 			if ( ! empty( $this->properties ) ) {

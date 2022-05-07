@@ -4,8 +4,7 @@
 
 if ( ! class_exists( 'lioncub_EDD' ) ) :
 
-    class lioncub_EDD {
-
+	class lioncub_EDD {
 
 		/**
 		 *
@@ -43,7 +42,7 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 			$filepath 		= $settings[$key]['filepath'] ?? '/';
 			$filename 		= $settings[$key]['filename'] ?? 'license.icl';
 			?>
-	
+
 			<span style="display:block">&nbsp;</span><br />
 			
 			<h3><?php esc_html_e( 'Lion Cub', 'lion-cub' ); ?></h3>
@@ -105,9 +104,9 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 					input.value = value;
 					input.className = 'large-text';
 					if ( tag.length > 0 ) {
-				   		let thetag = document.createElement( tag );
-					  	thetag.appendChild( input );
-				   		holder.appendChild( thetag );	
+						let thetag = document.createElement( tag );
+						thetag.appendChild( input );
+						holder.appendChild( thetag );
 					} else {
 						holder.appendChild( input ); 
 					}
@@ -127,7 +126,7 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 									<input type="text" name="lioncub[<?php echo esc_attr( $key ); ?>][header][]" value="" class="large-text" id="lioncub-headers-<?php echo $key . '-' . $i; ?>">
 
 								<?php }
-						 	} ?>
+							} ?>
 							</p>
 
 						<?php } 
@@ -156,7 +155,7 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 					let input = [];
 					let label = [];
 					let number = holder.getElementsByClassName( 'lioncub-props' );
-				    for (var i = 0; i < 4; i++) { 
+					for (var i = 0; i < 4; i++) {
 						input[i] = document.createElement("input");
 						input[i].name = name;
 						if ( i < 2 ) {
@@ -179,7 +178,7 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 					}
 					if ( tag.length > 0 ) {
 
-			   		let thetag = document.createElement( tag );
+					let thetag = document.createElement( tag );
 					let spacer = document.createTextNode( "\u00A0\u00A0\u00A0" );
 					let spacer2 = document.createTextNode( "\u00A0\u00A0\u00A0" );
 					let spacer3 = document.createTextNode( "\u00A0\u00A0\u00A0" );
@@ -194,7 +193,7 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 					thetag.appendChild( input[3] );
 					thetag.appendChild( label[3] );
 
-			   		holder.appendChild( thetag );	
+					holder.appendChild( thetag );
 
 				} else {
 					holder.appendChild( input[0] ); 
@@ -239,7 +238,7 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 									 echo ' &nbsp; ';
 								} 
 
-						 	}
+							}
 
 						} else { ?>
 
@@ -269,7 +268,6 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 
 				</p>
 
-	
 			</div>
 			<?php
 
@@ -329,13 +327,13 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 
 					if ( ! empty( $_POST['lioncub'][$key]['expire_on'] ) ) {
 						if ( preg_match("/^[2-9]{1}[0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST['lioncub'][$key]['expire_on'] ) ) {
-    							$s[$key]['expire_on'] = $_POST['lioncub'][$key]['expire_on'];
+								$s[$key]['expire_on'] = $_POST['lioncub'][$key]['expire_on'];
 						} else {
 							add_settings_error( 'lioncub_notice', 'lioncub_notice', 'Expiration format MUST be yyyy-mm-dd', 'error' );
-   	 						unset( $s[$key]['duration'] );
+							unset( $s[$key]['duration'] );
 						}
 					} else {
-   	 					unset( $s[$key]['expire_on'] );
+						unset( $s[$key]['expire_on'] );
 					}
 
 					// RESTRICTIONS
