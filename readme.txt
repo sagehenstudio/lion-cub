@@ -4,7 +4,7 @@ Tags: easy-digital-downloads,license,ioncube
 Requires at least: 5.6
 Requires PHP: 5.6
 Tested up to: 5.9
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Upload the make_license file to the server where your Easy Digital Download plug
 
 = WordPress =
 
-1. Upload the contents of **lion-cub.zip** to your plugins directory, which usually is `/wp-content/plugins/`.
+1. Upload the 'lion-cub' folder to your plugins directory, which usually is `/wp-content/plugins/`.
 2. Activate the **Lion Cub** plugin on your Wordpress Plugins screen
 3. Under Wordpress -> Settings -> Lion Cub, set your make_license absolute path or URL, and a random API key (keep it secret).
 4. In your Easy Digital Downloads > Download settings pages, turn on licensing per-download using the checkbox in the file settings, where it says "Create Ioncube licenses for this download." Proceed to set license settings there.
@@ -52,3 +52,11 @@ For Lion Cub debug logs, turn on Easy Digital Downloads debugging in their "Misc
 == Frequently Asked Questions ==
 
 == Screenshots ==
+
+== Changelog ==
+
+1.0.0 Initial release
+
+1.0.1 - 7 May 2022
+* Formatting
+* I'm learning GIT version control, so bear with me!

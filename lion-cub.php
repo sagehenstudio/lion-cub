@@ -3,7 +3,7 @@
  * Plugin Name: Lion Cub - IonCube License Generator
  * Description: A simple adapation of Maian Cube license generator API
  *
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Sagehen Studio
  * Text Domain: lioncub-license-generator
  * 
@@ -56,7 +56,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Instantiator
 		 *
 		 * @return void
@@ -72,7 +71,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Constructor
 		 *
 		 * @return void
@@ -89,7 +87,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Secure a temp directory for ZIP manipulation
 		 *
 		 * @return void
@@ -120,7 +117,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Check on security of temp folder
 		 *
 		 * @return void
@@ -148,7 +144,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Define REST API route
 		 *
 		 * @return void
@@ -171,7 +166,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Hooked to WP init()
 		 *
 		 * @return void
@@ -190,7 +184,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Define constants
 		 *
 		 * @return void
@@ -230,7 +223,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Include files
 		 *
 		 * @return void
@@ -244,7 +236,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * REST API route permission callback
 		 * Verify API key
 		 *
@@ -265,14 +256,13 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Write license file when EDD file is requested
 		 * Uses data stored in database post_meta
 		 *
-		 * @param string $requested file
- 		 * @param array $download_files
-		 * @param string $file_key
-		 * @param array $args
+		 * @param  string $requested file
+ 		 * @param  array  $download_files
+		 * @param  string $file_key
+		 * @param  array  $args
 		 * @return string
 		 */
 		public function edd_requested_file( $requested_file, $download_files, $file_key, $args ) {
@@ -377,9 +367,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * CRON to delete download files created during ZIP
-		 *
 		 *
 		 * @return void
 		 */
@@ -409,7 +397,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Assemble license string from settings
 		 *
 		 * @param  string $file_key
@@ -504,7 +491,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Write license string
 		 *
 		 * @param string $file_key
@@ -553,7 +539,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Make HTTP request
 		 * Hits IonCube make_license executable
 		 *
@@ -593,7 +578,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 
 		/**
-		 *
 		 * Gather, echo data from API call
 		 *
 		 * @return void
