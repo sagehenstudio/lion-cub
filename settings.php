@@ -53,8 +53,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 		 */
 		public function settings_sanitizer( $new ) {
 
-			if ( isset( $new['lic_path'] ) ) {
-
+			if ( ! empty( $new['lic_path'] ) ) {
 				$new['lic_path'] = sanitize_text_field( $new['lic_path'] );
 				if ( ! is_file( $new['lic_path'] ) && false === filter_var( $new['lic_path'], FILTER_VALIDATE_URL ) && ! @fopen( $new['lic_path'], 'r' ) ) {
 					add_settings_error( 'lioncub_notice', 'lioncub_notice', 'Sorry, that doesn\'t seem to be a valid path to your make_license file', 'warning' );
@@ -147,7 +146,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 							</th>
 							<td>
 								<input id="lioncub_debug" type="checkbox" name="lioncub[debug]" <?php checked( 'on', $lioncub['debug'] ?? '' ); ?> />
-								<label class="description" for="lioncub_debug">Turns on debugging. Logs found in plugin folder.</label>
+								<label class="description" for="lioncub_debug">Check to turn on debugging. Easy Digital Downloads debug logging must be turned on in EDD "Misc" settings and are then found under Downloads->Tools.</label>
 							</td>
 						</tr>
 
