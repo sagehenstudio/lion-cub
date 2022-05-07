@@ -33,14 +33,14 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 		 */
 		public function table_row( $post_id, $key, $args ) {
 
-			$settings 		= get_post_meta( $post_id, '_lioncub', true );
-			$passphrase 		= $settings[$key]['passphrase'] ?? '';
-			$expire_on 		= $settings[$key]['expire_on'] ?? '';
-			$duration 		= $settings[$key]['duration'] ?? '';
-			$duration_unit	= $settings[$key]['duration_unit'] ?? '';
-			$restrictions 	= $settings[$key]['restrictions'] ?? '';
-			$filepath 		= $settings[$key]['filepath'] ?? '/';
-			$filename 		= $settings[$key]['filename'] ?? 'license.icl';
+			$settings       = get_post_meta( $post_id, '_lioncub', true );
+			$passphrase     = $settings[$key]['passphrase'] ?? '';
+			$expire_on      = $settings[$key]['expire_on'] ?? '';
+			$duration       = $settings[$key]['duration'] ?? '';
+			$duration_unit  = $settings[$key]['duration_unit'] ?? '';
+			$restrictions   = $settings[$key]['restrictions'] ?? '';
+			$filepath       = $settings[$key]['filepath'] ?? '/';
+			$filename       = $settings[$key]['filename'] ?? 'license.icl';
 			?>
 
 			<span style="display:block">&nbsp;</span><br />
@@ -133,8 +133,7 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 					?>
 
 				</div>
-				<button type="button" onclick="AddLionCubHeaderField( 'headers', 'lioncub[<?php echo $key; ?>][header][]', '', 'p' )" class="button button-secondary"><?php esc_html_e( 'Add more header lines', 'lion-cub' ); ?></button>	
-
+				<button type="button" onclick="AddLionCubHeaderField( 'headers', 'lioncub[<?php echo $key; ?>][header][]', '', 'p' )" class="button button-secondary"><?php esc_html_e( 'Add more header lines', 'lion-cub' ); ?></button>
 
 
 
@@ -272,7 +271,6 @@ if ( ! class_exists( 'lioncub_EDD' ) ) :
 			<?php
 
 		}
-
 
 		/**
 		 * Save EDD download key settings

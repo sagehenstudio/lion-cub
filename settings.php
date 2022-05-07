@@ -9,11 +9,29 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 		 */
 		public function __construct() {
 
-			add_action( 'admin_init', array( $this, 'register_option' ) );
-			add_action( 'admin_menu', array( $this, 'settings' ) );
+			// Add a handy settings link on the plugins listing page
+			$plugin_file =  basename( __DIR__ ) . '/lion-cub.php';
+			add_filter( 'plugin_action_links_' . $plugin_file,  array( $this, 'add_settings_link' ) );
+
+			add_action( 'admin_init',                           array( $this, 'register_option' ) );
+			add_action( 'admin_menu',                           array( $this, 'settings' ) );
 
 		}
 
+		/**
+		 * Add settings link to WP plugin listing
+		 *
+		 * @param array $links
+		 * @return array
+		 */
+		public function add_settings_link( $links ) {
+
+			$settings_link = array(
+				'settings' => '<a href="' . admin_url( 'options-general.php?page=lion-cub-settings' ) . '" aria-label="' . esc_attr__( 'View Lion Cub main settings', 'lion-cub' ) . '">' . esc_html__( 'Settings', 'lion-cub' ) . '</a>',
+			);
+			return array_merge( $settings_link, $links );
+
+		}
 
 		/**
 		 * Creates our settings in the options table
@@ -22,7 +40,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 		 * @return void
 		 */
 		public function register_option() {
-	
+
 			register_setting( 'lioncub', 'lioncub', array( 'sanitize_callback' => array( $this, 'settings_sanitizer' ) ) );
 		
 		}
@@ -77,7 +95,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 			$make_lic_path = $lioncub['lic_path'] ?? '';
 			$api_key = $lioncub['api_key'] ?? '';
 			$timezone = $lioncub['timezone'] ?? '';
-	
+
 			ob_start();
 			?>
 
@@ -90,7 +108,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 					settings_fields( 'lioncub' );
 					do_settings_sections( 'lioncub' );
 				?>
-	
+
 					<table class="form-table">
 
 						<tr>

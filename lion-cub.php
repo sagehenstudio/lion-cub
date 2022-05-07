@@ -5,7 +5,7 @@
  *
  * Version: 1.0.1
  * Author: Sagehen Studio
- * Text Domain: lioncub-license-generator
+ * Text Domain: lion-cub
  * 
  * Lion Cub License Generator
  * Copyright: (c) 2022 Sagehen Studio
@@ -46,10 +46,10 @@ if ( ! class_exists( 'lionCub' ) ) :
 		public $data = array(
 			'timezone' 	=> 'US/Pacific',
 			'license' 	=> [ 
-				'expire_in' 			=>'7',
-				'duration' 			=> 'd',
-				'expose' 			=> 'yes',
-				'passphrase' 		=> 'passphrase',
+				'expire_in'     =>'7',
+				'duration'      => 'd',
+				'expose'        => 'yes',
+				'passphrase'    => 'passphrase',
 			],
 
 		);
@@ -82,7 +82,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 			add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
 
 			add_action( 'init', array( $this, 'init' ) );
-			
+
 		}
 
 
@@ -155,8 +155,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 				'callback' => array( $this, 'handle_api_call' ),
 				'args'     => [
 					'api_key' => [
-						'required' => true,
-						'type'	=> 'string',
+						'required'  => true,
+						'type'      => 'string',
 					],
 				],
 				'permission_callback' => array( $this, 'permission_callback' ), // check the API key

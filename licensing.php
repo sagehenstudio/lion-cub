@@ -33,7 +33,7 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 		 */
 		public function esc( $data ) {
 
-				return "'" . str_replace( "'", "\'", $data ) . "'";
+			return "'" . str_replace( "'", "\'", $data ) . "'";
 
 		}
 
