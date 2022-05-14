@@ -45,8 +45,9 @@ class lionCub_Uninstall {
 		// Delete main settings
 		delete_option( 'lioncub' );
 
-		// Delete EDD download options
-		// @todo
+		// Delete EDD licenses in post meta
+		global $wpdb;
+		$wpdb->query( "DELETE FROM wp_postmeta WHERE meta_key LIKE '_lioncub%'" );
 
 		// Stop cron if we could
 		// wp_clear_scheduled_hook( '' );

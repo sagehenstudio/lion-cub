@@ -124,9 +124,9 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 								<label for="lioncub_timezone"><?php esc_html_e( 'Timezone for licenses', 'lion-cub' ); ?></label>
 							</th>
 							<td>
-								<select id="lioncub_timezone" type="text" name="lioncub[timezone]" value="<?php echo esc_attr( $timezone ); ?>" />
+								<select id="lioncub_timezone" name="lioncub[timezone]" />
 								<?php foreach ( $this->get_timezones() as $key => $tz ) { ?>
-									<option value="<?php echo $key; ?>" <?php if ( $key === $timezone ) echo 'selected="selected"'; ?>><?php echo $tz; ?></option>
+									<option value="<?php echo esc_attr( $key ); ?>" <?php if ( $key === $timezone ) echo 'selected="selected"'; ?>><?php echo esc_html( $tz ); ?></option>
 								<?php } ?>
 							</td>
 						</tr>
@@ -142,7 +142,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 
 						<tr>	
 							<th>
-								<label for="lioncub_lnt"><?php esc_html_e( 'Debugging', 'wp-tcpdf-bridge' ); ?></label>
+								<label for="lioncub_debug"><?php esc_html_e( 'Debugging', 'wp-tcpdf-bridge' ); ?></label>
 							</th>
 							<td>
 								<input id="lioncub_debug" type="checkbox" name="lioncub[debug]" <?php checked( 'on', $lioncub['debug'] ?? '' ); ?> />

@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Lion Cub - IonCube License Generator
- * Description: A simple adapation of Maian Cube license generator API
+ * Plugin Name: Lion Cub - ionCube License Generator
+ * Description: An ionCube license generator for Easy Digital Downloads - adapated from the Maian Cube license generator API
  *
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Sagehen Studio
  * Text Domain: lion-cub
  * 
@@ -29,12 +29,14 @@
  * Adapted for Wordpress and EDD from MaianCube by Maian Media
  * https://www.maiancube.com
  *
+ * @todo number of license requests, date requested, license content available in customer/download EDD panel
+ * @todo license hygiene - delete old if new requested?
  */
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 if ( ! class_exists( 'lionCub' ) ) :
 
-    class lionCub {
+	class lionCub {
 
 		/**
 		 * Single instance of the lionCub class
@@ -58,7 +60,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		/**
 		 * Instantiator
 		 *
-		 * @return void
+		 * @return object
 		 */
 		public static function instance() {
 
@@ -239,7 +241,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		 * REST API route permission callback
 		 * Verify API key
 		 *
-		 * @return void
+		 * @return boolean
 		 */
 		public function permission_callback( $req ) {
 
@@ -250,7 +252,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 			// Get request API key
 			$params = $req->get_params();
 
-      		return $api_key === $params['api_key'];
+			return $api_key === $params['api_key'];
 
 		}
 
@@ -260,7 +262,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		 * Uses data stored in database post_meta
 		 *
 		 * @param  string $requested file
- 		 * @param  array  $download_files
+		 * @param  array  $download_files
 		 * @param  string $file_key
 		 * @param  array  $args
 		 * @return string
@@ -269,7 +271,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 			$settings = get_post_meta( $args['download'], '_lioncub', true );
 
-			// Continue or not based on if this file has IonCube licensing set up/turned on
+			// Continue or not based on if this file has ionCube licensing set up/turned on
 			if ( isset( $settings[$file_key]['licensing'] ) ) {
 				if ( 'on' !== $settings[$file_key]['licensing'] ) {
 					return $requested_file;
@@ -307,7 +309,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 						if ( is_writable( LIONCUB_TMP_DIR ) && copy( $requested_file, $temp_file ) ) {
 							// Try to open existing ZIP
-	   						$resource = $zip->open( $temp_file ); 	 
+							$resource = $zip->open( $temp_file );
 						} else {
 							edd_debug_log( 'Lion Cub - Error: PHP Class "ZipArchive" not found and is required!' );
 						}
@@ -322,7 +324,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 							// Create a new ZIP file
 							$resource = $zip->open( $temp_file, ZipArchive::CREATE );
-			 		 		// Add the requested file to the ZIP
+							// Add the requested file to the ZIP
 							$zip->addFile( $requested_file, $req_filename );
 							$req_filename = $temp_file;
 
@@ -335,7 +337,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 						// Add a file new.txt file to zip using the text specified
 						$zip->addFromString( $lic_file, $contents );
-    						// $zip->addFromString( $lic_file, $contents, ZipArchive::FL_ENC_UTF_8 ); // only works in PHP 8+
+							// $zip->addFromString( $lic_file, $contents, ZipArchive::FL_ENC_UTF_8 ); // only works in PHP 8+
 
 					} else {
 
@@ -494,8 +496,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 		 * Write license string
 		 *
 		 * @param string $file_key
-		 * @param array 	$args
-		 * @param array 	$settings
+		 * @param array  $args
+		 * @param array  $settings
 		 * 
 		 * @return void
 		 */
@@ -504,8 +506,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 			$response = $this->wp_remote_post( wp_json_encode( $this->data ) );
 
 			if ( ! $response ) {
-				// try one more time
-				sleep(1); // TRY AGAIN
+				// Try one more time
+				sleep( 1 ); // TRY AGAIN
 				$response = $this->wp_remote_post( wp_json_encode( $this->data ) );
 				if ( ! $response ) {
 					edd_debug_log( 'Lion Cub - Error: No response attempting to contact make_license' );
@@ -540,9 +542,9 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 		/**
 		 * Make HTTP request
-		 * Hits IonCube make_license executable
+		 * Hits ionCube make_license executable
 		 *
-		 * @return array
+		 * @return array|boolean
 		 */
 		private function wp_remote_post( $data ) {
 
@@ -551,8 +553,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 			$args = array( 
 				'body' => array(
-        				'data' => $data,
-			    ),
+						'data' => $data,
+				),
 				'timeout' => 10,
 			);
 			$response = wp_remote_post( get_rest_url( null, 'lion-cub/make-license/' ) . '?api_key=' . $api_key, $args );
@@ -560,7 +562,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 			// Check for error
 			if ( is_wp_error( $response ) ) {
 				edd_debug_log( 'Lioncub - Error: wp_remote_post() WP error' );
-				return;
+				return false;
 			}
 
 			// Parse remote HTML file
@@ -569,7 +571,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 			// Check for error
 			if ( is_wp_error( $response ) ) {
 				edd_debug_log( 'Lioncub - Error: wp_remote_retrieve_body() WP error' );
-				return;
+				return false;
 			}
 
 			return $response;
@@ -625,10 +627,10 @@ if ( ! class_exists( 'lionCub' ) ) :
 			 );
 
 			// Some user information to pass for TAG/SHORTCODE use later on in headers
- 			$account = array(
-		      	'name' => $name,
-      			'email' => $email,
-    			);
+			$account = array(
+				'name' => $name,
+				'email' => $email,
+				);
 
 			// Define temp file here so can be deleted afterward (below)
 			$file = 'license-' . sha1( time() ) . '.txt';
