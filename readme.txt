@@ -2,9 +2,9 @@
 Contributors: sagehenstudio, littlepackage
 Tags: easy-digital-downloads,license,ioncube
 Requires at least: 5.6
-Requires PHP: 5.6
-Tested up to: 5.9
-Stable tag: 1.0.2
+Requires PHP: 7.0
+Tested up to: 6.0
+Stable tag: 1.0.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,3 +61,9 @@ See README.md
 * Correct capitalization of ionCube (no capital I)
 * @todos added to header
 * Correct debug logs location on ionCube settings page
+
+1.0.3 - 27 July 2022
+* Make sure WP option 'lioncub' is array when fetching
+* Hook to init with priority > 100 to come in after edd_process_download(), hooked to init at 100
+* Separate out admin JS into separate file instead of inlining
+* PHP requirement 7.0 due to use of null coalesce operators

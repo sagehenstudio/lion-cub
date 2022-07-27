@@ -4,6 +4,17 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 
 	class ionCubeLicense {
 
+		protected $name;
+		protected $res_string;
+		protected $passphrase;
+		protected $expiration;
+		protected $server;
+		protected $headers;
+		protected $properties;
+		protected $account;
+		protected $save;
+		protected $settings;
+
 		/**
 		 * Constructor
 		 *
@@ -72,6 +83,7 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 			}
 			if ( ! is_writable( $output ) ) {
 				error_log( 'Lioncub output file isn\'t writable.' );
+				return 'err';
 			}
 
 			$debug = '';
@@ -81,15 +93,15 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 
 			$lic_path = $this->settings['lic_path'];
 
-			$shell = shell_exec( "$lic_path $string -o $output $debug" );
+			shell_exec( "$lic_path $string -o $output $debug" );
 
 			// Save and return path..
 			if ( 'yes' === $this->save ) {
 				if ( @file_exists( $output ) && filesize( $output ) > 0 ) {
 					return $output;
 				}
-				return 'err';
 			}
+			return 'err';
 
 		}
 
@@ -175,7 +187,6 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 			return ( ! empty( $expire ) ? ' ' . implode( ' ', $expire ) : '' );
 
 		}
-
 
 		/**
 		 * License properties

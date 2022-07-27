@@ -42,7 +42,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 		public function register_option() {
 
 			register_setting( 'lioncub', 'lioncub', array( 'sanitize_callback' => array( $this, 'settings_sanitizer' ) ) );
-		
+
 		}
 
 		/**
@@ -88,14 +88,12 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 			}
 
 			// Get settings array
-			$lioncub = get_option( 'lioncub', '' );
+			$lioncub = (array) get_option( 'lioncub', array() );
 
-			$passphrase = $lioncub['passphrase'] ?? '';
 			$make_lic_path = $lioncub['lic_path'] ?? '';
 			$api_key = $lioncub['api_key'] ?? '';
 			$timezone = $lioncub['timezone'] ?? '';
 
-			ob_start();
 			?>
 
 			<div class="wrap">
@@ -130,7 +128,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 								<?php } ?>
 							</td>
 						</tr>
-<script>function GetRandom(){var myElement = document.getElementById("lioncub_api");myElement.value = Array.from(Array(28), () => Math.floor(Math.random() * 36).toString(36)).join('')}</script>
+<script>function GetRandom(){let myElement = document.getElementById("lioncub_api");myElement.value = Array.from(Array(28), () => Math.floor(Math.random() * 36).toString(36)).join('')}</script>
 						<tr>
 							<th>
 								<label for="lioncub_api"><?php esc_html_e( 'API Key', 'lion-cub' ); ?></label>
@@ -150,7 +148,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 							</td>
 						</tr>
 
-						<tr>	
+						<tr>
 							<th>
 								<label for="lioncub_lnt"><?php esc_html_e( 'Leave No Trace', 'wp-tcpdf-bridge' ); ?></label>
 							</th>
@@ -162,13 +160,6 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 					</table>
 				<?php submit_button(); ?>
 				</form>
-
-				<?php
-					$contents = ob_get_contents();
-					ob_end_clean();
-					echo $contents;
-				?>
- 
 			</div>
 
 		<?php }

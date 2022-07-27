@@ -2,8 +2,7 @@
 /**
  * Plugin Name: Lion Cub - ionCube License Generator
  * Description: An ionCube license generator for Easy Digital Downloads - adapated from the Maian Cube license generator API
- *
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Sagehen Studio
  * Text Domain: lion-cub
  * 
@@ -46,16 +45,15 @@ if ( ! class_exists( 'lionCub' ) ) :
 		protected static $_instance = null;
 
 		public $data = array(
-			'timezone' 	=> 'US/Pacific',
-			'license' 	=> [ 
-				'expire_in'     =>'7',
+			'timezone'  => 'US/Pacific',
+			'license'   => [
+				'expire_in'     => '7',
 				'duration'      => 'd',
 				'expose'        => 'yes',
 				'passphrase'    => 'passphrase',
 			],
 
 		);
-
 
 		/**
 		 * Instantiator
@@ -65,12 +63,13 @@ if ( ! class_exists( 'lionCub' ) ) :
 		public static function instance() {
 
 			if ( ! isset( self::$_instance ) && ! ( self::$_instance instanceof lionCub ) ) {
+
 				self::$_instance = new lionCub;
+
 			}
 			return self::$_instance;
 
 		}
-
 
 		/**
 		 * Constructor
@@ -83,7 +82,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 			add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
 
-			add_action( 'init', array( $this, 'init' ) );
+			// Priority must be > 100
+			add_action( 'init', array( $this, 'init' ), 101 );
 
 		}
 
@@ -133,7 +133,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 			$rules = 'Options -Indexes';
 			if ( file_exists( $temp_dir . '.htaccess' ) ) {
 				$contents = @file_get_contents( $temp_dir . '.htaccess' );
-				if ( $contents !== $rules || ! $contents ) {
+				if ( $contents !== $rules ) {
 					// Update the .htaccess rules if they don't match
 					@file_put_contents( $temp_dir . '.htaccess', $rules );
 				}
@@ -184,7 +184,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 		}
 
-
 		/**
 		 * Define constants
 		 *
@@ -193,7 +192,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		private function define_constants() {
 
 			if ( ! defined( 'LIONCUB_VERSION' ) ) {
-				define( 'LIONCUB_VERSION', '1.0' );
+				define( 'LIONCUB_VERSION', '1.0.3' );
 			}
 
 			if ( ! defined( 'LIONCUB_BASE_PATH' ) ) {
@@ -205,8 +204,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 			}
 
 			if ( ! defined( 'LIONCUB_DEBUG' ) ) {
-				$main_settings = get_option( 'lioncub' );
-				if ( $main_settings['debug'] === 'on' ) {
+				$main_settings = (array) get_option( 'lioncub', array() );
+				if ( isset( $main_settings['debug'] ) && $main_settings['debug'] === 'on' ) {
 					define( 'LIONCUB_DEBUG', true );
 				} else {
 					define( 'LIONCUB_DEBUG', false );
@@ -246,7 +245,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		public function permission_callback( $req ) {
 
 			// Get API key from settings
-			$main_settings = get_option( 'lioncub' );
+			$main_settings = (array) get_option( 'lioncub', array() );
 			$api_key = sanitize_text_field( $main_settings['api_key'] ) ?? '';
 
 			// Get request API key
@@ -261,7 +260,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		 * Write license file when EDD file is requested
 		 * Uses data stored in database post_meta
 		 *
-		 * @param  string $requested file
+		 * @param  string $requested_file
 		 * @param  array  $download_files
 		 * @param  string $file_key
 		 * @param  array  $args
@@ -292,6 +291,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 				$this->check_temp_security( LIONCUB_TMP_DIR );
 
 				$resource = false;
+				$temp_file = '';
 				$lic_filepath = sanitize_text_field( $settings[$file_key]['filepath'] );
 				$lic_filename = sanitize_text_field( $settings[$file_key]['filename'] );
 				$lic_filename = apply_filters( 'lioncub_filter_license_file', $lic_filename, $requested_file, $download_files, $file_key, $args );
@@ -346,7 +346,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 					}
 
 					$zip->close();
-	
+
 				} else {
 					edd_debug_log( 'Lion Cub - Error: PHP Class "ZipArchive" not found and is required!' );
 				}
@@ -408,7 +408,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		 */
 		protected function get_license_string( $file_key, $args, $settings ) {
 
-			$main_settings = get_option( 'lioncub' );
+			$main_settings = (array) get_option( 'lioncub', array() );
 
 			$license = [];
 			$license['expire_in'] = '7';
@@ -433,11 +433,11 @@ if ( ! class_exists( 'lionCub' ) ) :
 			$customer = new EDD_Customer( $args['email'] );
 
 			$data = array( 
-					'api_key' 	=> sanitize_text_field( $main_settings['api_key'] ) ?? '',
-					'timezone' 	=> sanitize_text_field( $main_settings['timezone'] ) ?? 'US/Pacific',
-					'license' 	=> $license,
-					'email'		=> $args['email'],
-					'name'		=> $customer->name,
+					'api_key'   => sanitize_text_field( $main_settings['api_key'] ) ?? '',
+					'timezone'  => sanitize_text_field( $main_settings['timezone'] ) ?? 'US/Pacific',
+					'license'   => $license,
+					'email'     => $args['email'],
+					'name'      => $customer->name,
 				
 			); // end $data
 
@@ -451,8 +451,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 			if ( isset( $settings[$file_key]['restrictions'] ) && '' !== $settings[$file_key]['restrictions'] ) {
 
 				$restrictions = array( 
-					'encoder_string' => sanitize_text_field( $settings[$file_key]['restrictions'] ),
-					'expose'			=> $settings[$file_key]['restrictions_expose'] === 'on' ? 'yes' : 'no',
+					'encoder_string'    => sanitize_text_field( $settings[$file_key]['restrictions'] ),
+					'expose'            => $settings[$file_key]['restrictions_expose'] === 'on' ? 'yes' : 'no',
 					
 				);
 				$data['restrictions'] = apply_filters( 'lioncub_filter_restrictions', $restrictions, $args );
@@ -464,18 +464,19 @@ if ( ! class_exists( 'lionCub' ) ) :
 				$props = [];
 				$count = 0;
 				$properties = $settings[$file_key]['properties'];
+				$prev_prop = '';
 				foreach( $properties as $key => $property ) {
 
 					if ( $key % 2 === 0 ) {
 						$prev_prop = $property;
 						continue;
 					}
-					
+
 					$props[] = array( 
-						'key' 		=> $prev_prop,
-						'value'		=> $property,
-						'expose'		=> isset( $settings[$file_key]['properties_expose'][$count] ) ?? '',
-						'enforce'	=> isset( $settings[$file_key]['properties_enforce'][$count] ) ?? '',
+						'key'       => $prev_prop,
+						'value'     => $property,
+						'expose'    => isset( $settings[$file_key]['properties_expose'][$count] ) ?? '',
+						'enforce'   => isset( $settings[$file_key]['properties_enforce'][$count] ) ?? '',
 					);
 
 					if ( $key % 2 !== 0 ) {
@@ -538,8 +539,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 		}
 
-
-
 		/**
 		 * Make HTTP request
 		 * Hits ionCube make_license executable
@@ -548,14 +547,12 @@ if ( ! class_exists( 'lionCub' ) ) :
 		 */
 		private function wp_remote_post( $data ) {
 
-			$main_settings = get_option( 'lioncub' );
+			$main_settings = (array) get_option( 'lioncub', array() );
 			$api_key = sanitize_text_field( $main_settings['api_key'] ) ?? '';
 
 			$args = array( 
-				'body' => array(
-						'data' => $data,
-				),
-				'timeout' => 10,
+				'body'      => array( 'data' => $data ),
+				'timeout'   => 10,
 			);
 			$response = wp_remote_post( get_rest_url( null, 'lion-cub/make-license/' ) . '?api_key=' . $api_key, $args );
 
@@ -586,7 +583,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		 */
 		public function handle_api_call( $req ) {
 
-			if ( ! isset( $req['data'] ) || empty( $req['data'] ) ) {
+			if ( empty( $req['data'] ) ) {
 				$data = $this->data;
 			} else {
 				$data = $req['data'];
@@ -600,9 +597,9 @@ if ( ! class_exists( 'lionCub' ) ) :
 				edd_debug_log( 'Lioncub - Data received by API handler: ' . print_r( $data, true ) );
 			}
 
-			$api_key   	= $data['api_key'] ?? '';
-			$name     	= $data['name'] ?? '';
-			$email    	= $data['email'] ?? '';
+			$api_key    = $data['api_key'] ?? '';
+			$name       = $data['name'] ?? '';
+			$email      = $data['email'] ?? '';
 
 			//------------------------
 			// SET TIMEZONE
@@ -613,17 +610,17 @@ if ( ! class_exists( 'lionCub' ) ) :
 			date_default_timezone_set( $timezone );
 
 			$expiration = array(
-				'expire-on' 			=> $data['license']['expire_on'] ?? '0000-00-00',
-				'expire-in' 			=> $data['license']['expire_in'] ?? '',
-				'expire-duration'	=> $data['license']['duration'] ?? '',
-				'expire-expose' 		=> ( isset( $data['license']['expose'] ) && in_array( $data['license']['expose'], array( 'yes', 'no' ) ) ? $data['license']['expose'] : 'no' ),
+				'expire-on'         => $data['license']['expire_on'] ?? '0000-00-00',
+				'expire-in'         => $data['license']['expire_in'] ?? '',
+				'expire-duration'   => $data['license']['duration'] ?? '',
+				'expire-expose'     => ( isset( $data['license']['expose'] ) && in_array( $data['license']['expose'], array( 'yes', 'no' ) ) ? $data['license']['expose'] : 'no' ),
 			 );
 
 			$server = array(
-				'domain' 	=> $data['restrictions']['domain'] ?? '',
-				'ip' 		=> $data['restrictions']['ip'] ?? '',
-				'mac' 		=> $data['restrictions']['mac'] ?? '',
-				'expose' 	=> ( isset( $data['restrictions']['expose'] ) && in_array( $data['restrictions']['expose'], array( 'yes', 'no' ) ) ? $data['restrictions']['expose'] : 'no' ),
+				'domain'    => $data['restrictions']['domain'] ?? '',
+				'ip'        => $data['restrictions']['ip'] ?? '',
+				'mac'       => $data['restrictions']['mac'] ?? '',
+				'expose'    => ( isset( $data['restrictions']['expose'] ) && in_array( $data['restrictions']['expose'], array( 'yes', 'no' ) ) ? $data['restrictions']['expose'] : 'no' ),
 			 );
 
 			// Some user information to pass for TAG/SHORTCODE use later on in headers
@@ -642,16 +639,16 @@ if ( ! class_exists( 'lionCub' ) ) :
 			include( 'licensing.php' );
 
 			$license = new ionCubeLicense( array(
-				'name' 		=> $file,
-				'res_string'	=> $data['restrictions']['encoder_string'] ?? '',
-				'passphrase'	=> $data['license']['passphrase'] ?? '',
-				'expiration'	=> $expiration,
-				'server' 	=> $server,
-				'headers' 	=> ( ! empty( $data['headers'] ) ? $data['headers'] : array() ),
-				'properties'	=> ( ! empty( $data['properties'] ) ? $data['properties'] : array() ),
-				'account' 	=> $account,
-				'save' 		=> 'yes',
-				'settings' 	=> get_option( 'lioncub', array() ),
+				'name'          => $file,
+				'res_string'    => $data['restrictions']['encoder_string'] ?? '',
+				'passphrase'    => $data['license']['passphrase'] ?? '',
+				'expiration'    => $expiration,
+				'server'        => $server,
+				'headers'       => ( ! empty( $data['headers'] ) ? $data['headers'] : array() ),
+				'properties'    => ( ! empty( $data['properties'] ) ? $data['properties'] : array() ),
+				'account'       => $account,
+				'save'          => 'yes',
+				'settings'      => get_option( 'lioncub', array() ),
 			) );
 
 			$lic_file = $license->create();
@@ -672,8 +669,8 @@ if ( ! class_exists( 'lionCub' ) ) :
 					case 'json':
 						echo json_encode( 
 							array(
-								'status' => 'OK',
-								'license' => $string,
+								'status'    => 'OK',
+								'license'   => $string,
 							) 
 						);
 						break;
@@ -690,9 +687,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 				switch( LIONCUB_API_RESPONSE ) {
 					case 'json':
 						echo json_encode(
-							array(
-								'status' => 'ERR'
-							) 
+							array( 'status' => 'ERR' )
 						);
 						break;
 					default:
