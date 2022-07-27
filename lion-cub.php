@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Lion Cub - ionCube License Generator
  * Description: An ionCube license generator for Easy Digital Downloads - adapated from the Maian Cube license generator API
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Sagehen Studio
  * Text Domain: lion-cub
  * 
@@ -45,14 +45,12 @@ if ( ! class_exists( 'lionCub' ) ) :
 		protected static $_instance = null;
 
 		public $data = array(
-			'timezone'  => 'US/Pacific',
 			'license'   => [
 				'expire_in'     => '7',
 				'duration'      => 'd',
 				'expose'        => 'yes',
 				'passphrase'    => 'passphrase',
 			],
-
 		);
 
 		/**
@@ -192,7 +190,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 		private function define_constants() {
 
 			if ( ! defined( 'LIONCUB_VERSION' ) ) {
-				define( 'LIONCUB_VERSION', '1.0.3' );
+				define( 'LIONCUB_VERSION', '1.0.4' );
 			}
 
 			if ( ! defined( 'LIONCUB_BASE_PATH' ) ) {
@@ -434,7 +432,6 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 			$data = array( 
 					'api_key'   => sanitize_text_field( $main_settings['api_key'] ) ?? '',
-					'timezone'  => sanitize_text_field( $main_settings['timezone'] ) ?? 'US/Pacific',
 					'license'   => $license,
 					'email'     => $args['email'],
 					'name'      => $customer->name,
@@ -601,13 +598,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 			$name       = $data['name'] ?? '';
 			$email      = $data['email'] ?? '';
 
-			//------------------------
-			// SET TIMEZONE
-			//------------------------
-
 			include( 'functions.php' );
-			$timezone = $data['timezone'] ?? 'US/Pacific';
-			date_default_timezone_set( $timezone );
 
 			$expiration = array(
 				'expire-on'         => $data['license']['expire_on'] ?? '0000-00-00',
@@ -625,7 +616,7 @@ if ( ! class_exists( 'lionCub' ) ) :
 
 			// Some user information to pass for TAG/SHORTCODE use later on in headers
 			$account = array(
-				'name' => $name,
+				'name'  => $name,
 				'email' => $email,
 				);
 

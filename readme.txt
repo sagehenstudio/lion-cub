@@ -4,7 +4,7 @@ Tags: easy-digital-downloads,license,ioncube
 Requires at least: 5.6
 Requires PHP: 7.0
 Tested up to: 6.0
-Stable tag: 1.0.6
+Stable tag: 1.0.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,3 +67,6 @@ See README.md
 * Hook to init with priority > 100 to come in after edd_process_download(), hooked to init at 100
 * Separate out admin JS into separate file instead of inlining
 * PHP requirement 7.0 due to use of null coalesce operators
+
+1.0.4 - 27 July 2022
+* Remove timezone option and manipulation
