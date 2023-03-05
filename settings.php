@@ -11,10 +11,10 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 
 			// Add a handy settings link on the plugins listing page
 			$plugin_file =  basename( __DIR__ ) . '/lion-cub.php';
-			add_filter( 'plugin_action_links_' . $plugin_file,  array( $this, 'add_settings_link' ) );
+			add_filter( 'plugin_action_links_' . $plugin_file,  [ $this, 'add_settings_link' ] );
 
-			add_action( 'admin_init',                           array( $this, 'register_option' ) );
-			add_action( 'admin_menu',                           array( $this, 'settings' ) );
+			add_action( 'admin_init',                           [ $this, 'register_option' ] );
+			add_action( 'admin_menu',                           [ $this, 'settings' ] );
 
 		}
 
@@ -88,7 +88,7 @@ if ( ! class_exists( 'lionCub_Settings' ) ) :
 			}
 
 			// Get settings array
-			$lioncub = (array) get_option( 'lioncub', array() );
+			$lioncub = (array) get_option( 'lioncub', [] );
 
 			$make_lic_path = $lioncub['lic_path'] ?? '';
 			$api_key = $lioncub['api_key'] ?? '';

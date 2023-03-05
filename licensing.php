@@ -195,16 +195,16 @@ if ( ! class_exists( 'ionCubeLicense' ) ) :
 		 */
 		protected function properties() {
 
-			$prop = array();
-			$expose = array();
-			$enforce = array();
-			$atk = array(); // @todo set this up
-			$tags = array( // tags are like shortcodes which can be used in headers for dynamic content
+			$prop = [];
+			$expose = [];
+			$enforce = [];
+			$atk = []; // @todo set this up
+			$tags = [ // tags are like shortcodes which can be used in headers for dynamic content
 				'{NAME}'    => $this->account['name'],
 				'{EMAIL}'   => $this->account['email'],
 				'{DATE}'    => date_i18n( get_option( 'date_format' ) ),
 				'{TIME}'    => date_i18n( get_option( 'time_format' ) ),
-			);
+			];
 
 			if ( ! empty( $this->properties ) ) {
 				for ( $i = 0; $i < count( $this->properties ); $i++ ) {
